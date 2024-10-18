@@ -16,7 +16,7 @@ app.use(express.urlencoded({extended:false}));
 app.use(express.json());
 app.use(cors({
     origin: 'http://localhost:5173', // Permitir solo este origen
-    methods: ['POST', 'GET', "DELETE"], // Métodos permitidos
+    methods: ['POST', 'GET', "DELETE", "PUT"], // Métodos permitidos
     allowedHeaders: ['Content-Type', 'Authorization'] // Encabezados permitidos
   }));
  
@@ -69,6 +69,25 @@ app.delete('/deleteUser', async (req, res) => {
 
     res.status(201).json({message: 'Usuario eliminado correctamente'});
 })
+
+
+// Actualizar Usuario
+app.put('/updateUser', async (req, res) => {    
+
+    const {_id, name, email, phone, address} = req.body;
+
+    await connect();
+    const user = await User.findByIdAndUpdate(_id, {name, email, phone, address}, { new: true, runValidators: true } )
+    if (!user) {
+        return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    await disconnect();
+
+    res.status(201).json({message: 'Usuario actualizado correctamente'});
+})
+
+
  
 
 app.listen(app.get('port'),()=>{
