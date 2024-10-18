@@ -37,8 +37,8 @@ const Table = () => {
      users ? (
     <>
 
-    <div className="relative overflow-x-auto">
-        <div className="flex justify-between mb-5 items-center">
+    <div className="relative  overflow-x-auto">
+        <div className="flex text-center justify-between mb-5 items-center">
             <h1 className="text-2xl font-bold">Usuarios</h1>
             <Link to={"/AddUser"}>
             <button className="bg-blue-600 text-white text-sm p-2">
