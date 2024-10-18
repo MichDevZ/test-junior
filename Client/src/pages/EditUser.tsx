@@ -77,7 +77,7 @@ const EditUser = () => {
   </div>
   <div className="bg-gray-100 p-10">
   <div>
-    <h1 className="text-2xl text-center font-bold  p-2  mb-5 ">Ingresar nuevo usuario</h1>
+    <h1 className="text-2xl text-center font-bold  p-2  mb-5 ">Editar usuario</h1>
   </div>
 <div className="w-72 mx-auto">
   <div className="relative z-0 w-full mb-5 group">
