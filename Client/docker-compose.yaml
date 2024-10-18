@@ -1,0 +1,8 @@
+services:
+  testjuniorAppdb:
+    image:  mongo:6.0.2
+    container_name: testjunior-database
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongo:/data/db
