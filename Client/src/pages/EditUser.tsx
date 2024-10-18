@@ -6,6 +6,8 @@ import axios from 'axios';
 const EditUser = () => {
     
     const [message, setMessage] = useState<Boolean>(false)
+    const [messageEmail, setMessageEmail] = useState<Boolean>(false)
+    const [messageNumber, setMessageNumber] = useState<Boolean>(false)
     
     const location = useLocation();
     const {_id , name, email, phone, address } = location.state || {};
@@ -21,6 +23,23 @@ const EditUser = () => {
     }, [])
     
     const handleEditUser = async (editUser: IForm) => {
+
+      
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const phonePattern = /^\d+$/;
+
+      if(!emailPattern.test(editUser.email)) {
+        setMessageNumber(false)
+        setMessageEmail(true)
+        return;
+      }
+
+      if(!phonePattern.test(editUser.phone)) { 
+        setMessageEmail(false)
+        setMessageNumber(true)
+        return;
+      }
+
         try {
             const {data} = await axios.put('http://localhost:3000/updateUser', {
             _id: editUser._id,
@@ -32,6 +51,8 @@ const EditUser = () => {
   
             if (data) {
               setMessage(true)
+              setMessageEmail(false)
+              setMessageNumber(false)
             }
         } catch (error) {
             console.log(error)
@@ -46,6 +67,13 @@ const EditUser = () => {
         <>
   <div className={`bg-green-500 text-white text-center mb-5 p-2 ${message ? '' : 'hidden'}`}>
       <p>Usuario editado correctamente</p>
+  </div>
+
+  <div className={`bg-red-500 text-white text-center mb-5 p-2 ${messageEmail ? '' : 'hidden'}`}>
+      <p>Ingrese un correo valido</p>
+  </div>
+  <div className={`bg-red-500 text-white text-center mb-5 p-2 ${messageNumber ? '' : 'hidden'}`}>
+      <p>Ingrese un número válido</p>
   </div>
   <div className="bg-gray-100 p-10">
   <div>

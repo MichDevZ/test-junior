@@ -20,7 +20,7 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization'] // Encabezados permitidos
   }));
  
-// Agregar user
+// Agregar usuario
 app.post('/addUser', async (req, res) => {    
         const {name, email, phone, address} = req.body;
 
@@ -77,7 +77,7 @@ app.put('/updateUser', async (req, res) => {
     const {_id, name, email, phone, address} = req.body;
 
     await connect();
-    const user = await User.findByIdAndUpdate(_id, {name, email, phone, address}, { new: true, runValidators: true } )
+    const user = await User.findByIdAndUpdate(_id, {name: name, email: email, phone: phone, address: address}, { new: true, runValidators: true } )
     if (!user) {
         return res.status(404).json({ message: 'Usuario no encontrado' });
     }

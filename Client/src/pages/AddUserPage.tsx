@@ -22,9 +22,28 @@ const AddUser = () => {
   })
 
   const [message, setMessage] = useState<Boolean>(false)
+  const [messageEmail, setMessageEmail] = useState<Boolean>(false)
+  const [messageNumber, setMessageNumber] = useState<Boolean>(false)
 
 
   const handleSubmit = async () => {
+
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const phonePattern = /^\d+$/;
+
+      if(!emailPattern.test(formValue.email)) {
+        setMessageNumber(false)
+        setMessageEmail(true)
+        return;
+      }
+
+      if(!phonePattern.test(formValue.phone)) { 
+        setMessageEmail(false)
+        setMessageNumber(true)
+        return;
+      }
+
+
       try {
           const {data} = await axios.post('http://localhost:3000/addUser', {
             name: formValue.name,
@@ -33,8 +52,11 @@ const AddUser = () => {
             address: formValue.address
           })
 
+
           if (data) {
             setMessage(true)
+            setMessageEmail(false)
+            setMessageNumber(false)
             setFormValue({
               _id: '',
               name: '',
@@ -54,13 +76,19 @@ const AddUser = () => {
   <div className={`bg-green-500 text-white text-center mb-5 p-2 ${message ? '' : 'hidden'}`}>
       <p>Usuario creado correctamente</p>
   </div>
+  <div className={`bg-red-500 text-white text-center mb-5 p-2 ${messageEmail ? '' : 'hidden'}`}>
+      <p>Ingrese un correo valido</p>
+  </div>
+  <div className={`bg-red-500 text-white text-center mb-5 p-2 ${messageNumber ? '' : 'hidden'}`}>
+      <p>Ingrese un número válido</p>
+  </div>
   <div className="bg-gray-100 p-10">
   <div>
     <h1 className="text-2xl text-center font-bold  p-2  mb-5 ">Ingresar nuevo usuario</h1>
   </div>
 <div className="w-72 mx-auto">
   <div className="relative z-0 w-full mb-5 group">
-      <input value={formValue.name} onChange={(e) => setFormValue({...formValue, name: e.target.value})} type="text" name="floating_email" id="floating_email" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+      <input  value={formValue.name} onChange={(e) => setFormValue({...formValue, name: e.target.value})} type="text" name="floating_email" id="floating_email" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
       <label  className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Nombre</label>
   </div>
   <div className="relative z-0 w-full mb-5 group">
