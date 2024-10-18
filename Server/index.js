@@ -40,21 +40,34 @@ app.post('/addUser', async (req, res) => {
         res.status(201).json({ message: 'Usuario agregado exitosamente' });
 })
 
-app.get('/addUser', async (req, res) => {    
+
+//Obtener todos los usuarios
+app.get('/getAllUsers', async (req, res) => {    
 
         await connect();
-        const newUser = await new User({
-            name,
-            email,
-            phone,
-            address
-        })
-
-        await newUser.save()
-        
+        const users = await User.find().select('name email phone address _id').lean();
         await disconnect();
 
-        res.status(201).json({ message: 'Usuario agregado exitosamente' });
+        res.status(201).json(users);
+})
+
+//Eliminar Usuario
+app.delete('/deleteUser', async (req, res) => {    
+
+    const {_id} = req.body;
+
+    await connect();
+    const user = await User.findById(_id)
+    if (!user) {
+        return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+
+    await User.findByIdAndDelete(_id);
+
+    await disconnect();
+
+    res.status(201).json({message: 'Usuario eliminado correctamente'});
 })
  
 

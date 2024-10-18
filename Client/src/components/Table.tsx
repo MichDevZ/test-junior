@@ -1,7 +1,38 @@
+import axios from "axios"
+import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
+import { IForm } from "../pages/AddUserPage"
+
 
 
 const Table = () => {
+
+    const [users, setUsers] = useState<IForm[]>()
+    const [handleData, setHandleData] = useState<boolean>(false);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const {data} = await axios.get('http://localhost:3000/getAllUsers');
+            setUsers(data)
+          }
+          fetchData()    
+
+    }, [handleData])
+    
+
+    const deleteUser = async (id: string) => {
+        const {data} = await axios.delete("http://localhost:3000/deleteUser", {
+            data: {
+                _id: id
+            }
+        })
+
+        if (data) {
+            setHandleData(true)
+        }
+    }
+
+
   return (
 
     <>
@@ -36,28 +67,33 @@ const Table = () => {
             </tr>
         </thead>
         <tbody>
-            <tr className="bg-white ">
+            {
+                users?.map(user => (
+
+            <tr key={user._id} className="bg-white ">
                 <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                    Magic Mouse 2
+                    {user.name}
                 </th>
                 <td className="px-6 py-4">
-                    Black
+                    {user.email}
                 </td>
                 <td className="px-6 py-4">
-                    Accessories
+                    {user.phone}
                 </td>
                 <td className="px-6 py-4">
-                    $99
+                    {user.address}
                 </td>
 
                 <td className="px-6 py-4">
-                    <button>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                    <button onClick={() => deleteUser(user._id)} className="">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="text-red-600 size-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                         </svg>
                     </button>
                 </td>
             </tr>
+                ))
+            }
 
             
         </tbody>

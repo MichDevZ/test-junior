@@ -2,7 +2,8 @@ import axios from "axios"
 import { useState } from "react"
 import { Link } from "react-router-dom"
 
-interface IForm {
+export interface IForm {
+  _id: string,
   name: string,
   email: string,
   phone: string,
@@ -13,6 +14,7 @@ const AddUser = () => {
 
 
   const  [formValue, setFormValue] = useState<IForm>({
+    _id: '',
      name: '',
     email: '',
     phone: '',
