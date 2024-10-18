@@ -1,11 +1,11 @@
-import mongoose from 'mongoose';
-
+const mongoose = require('mongoose')
+require('dotenv').config();
 
 const mongoConnection = {
     isConnected: 0
 }
 
-export const connect = async () => {
+const connect = async () => {
 
     if ( mongoConnection.isConnected ) {
         console.log('Ya estabamos conectados');
@@ -28,7 +28,7 @@ export const connect = async () => {
     console.log('Conectado a MongoDB:', process.env.MONGO_URL );
 }
 
-export const disconnect = async() => {
+const disconnect = async() => {
     
     if ( process.env.NODE_ENV === 'development' ) return;
 
@@ -39,3 +39,5 @@ export const disconnect = async() => {
 
     console.log('Desconectado de MongoDB');
 }
+
+module.exports = { connect, disconnect };

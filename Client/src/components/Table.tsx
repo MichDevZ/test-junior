@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 
 
 const Table = () => {
@@ -8,9 +9,11 @@ const Table = () => {
     <div className="relative overflow-x-auto">
         <div className="flex justify-between mb-5 items-center">
             <h1 className="text-2xl font-bold">Usuarios</h1>
+            <Link to={"/AddUser"}>
             <button className="bg-blue-600 text-white text-sm p-2">
                 Agregar usuario
             </button>
+            </Link>
         </div>
     <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50  ">

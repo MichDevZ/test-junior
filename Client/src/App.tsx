@@ -1,14 +1,20 @@
-import './App.css'
-import Table from './components/Table'
+import {
+  Route,
+  Routes
+} from "react-router-dom";
+import './App.css';
+import Table from './components/Table';
+import AddUser from "./pages/AddUserPage";
 
 function App() {
-
-
   return (
     <>
-     <Table />
+          <Routes>
+              <Route path="/" element={<Table />}/>
+              <Route path="/AddUser" element={<AddUser />}/>
+          </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
