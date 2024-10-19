@@ -2,6 +2,7 @@
 
 ##### - Ejecutar npm install para los modulos de Node 
 ##### - Ejecutar docker compose up -d  para levantar docker con mongoDB
+##### - Iniciar el servidor con node index.js
 
 ### __2. En carpeta Client:__
 
